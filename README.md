@@ -8,6 +8,15 @@
 
 An all-in-one interactive CLI launcher designed to effortlessly run PowerShell scripts (`.ps1`) on Windows operating systems.
 
+### ⚠️ Encoding Requirements
+
+* **EN:** All `.ps1` scripts containing non-ASCII characters (e.g., Cyrillic) **MUST** be saved in **UTF-8 with BOM** encoding. To ensure correct console output, add the following line at the very beginning of your PowerShell script:
+  ```powershell
+  [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+  ```
+
+---
+
 ### ❓ What problem does it solve?
 1. **Bypasses Restrictions:** By default, Windows blocks the execution of external PowerShell scripts due to security policies. This batch script automatically bypasses this restriction safely (`-ExecutionPolicy Bypass`) without changing your global system settings.
 2. **Interactive Menu:** If there are multiple scripts in the folder, the launcher automatically scans the directory and generates a clean, numbered menu for selection.
