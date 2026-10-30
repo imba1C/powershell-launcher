@@ -14,6 +14,7 @@ An all-in-one interactive CLI launcher designed to effortlessly run PowerShell s
   ```powershell
   [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
   ```
+* **Batch (`.bat`):** Must be saved **WITHOUT BOM** (Standard UTF-8 or ANSI/Windows-1251), otherwise Windows `cmd.exe` will fail to execute the first line.
 
 ---
 
@@ -52,6 +53,16 @@ This project is licensed under the MIT License. Feel free to use, modify, and di
 ## Русский
 
 Универсальный интерактивный CLI-загрузчик для удобного запуска PowerShell-скриптов (`.ps1`) в операционной системе Windows.
+
+### ⚠️ Важное примечание по кодировке
+
+* **RU:** Все скрипты `.ps1`, содержащие кириллицу, **ОБЯЗАТЕЛЬНО** должны быть сохранены в кодировке **UTF-8 с BOM**. Чтобы русский текст корректно отображался в консоли, добавляйте в самое начало каждого PowerShell-скрипта следующую строку:
+  ```powershell
+  [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+  ```
+* **Batch (`.bat`):** Файл лаунчера (`run.bat`) должен быть сохранен строго **БЕЗ BOM** (в обычном UTF-8 или ANSI/Windows-1251). Если оставить BOM, Windows выдаст ошибку на первой же строке.
+
+---
 
 ### ❓ Какую проблему это решает?
 1. **Обход ограничений:** Windows по умолчанию блокирует запуск внешних PowerShell-скриптов из-за политики безопасности (`ExecutionPolicy`). Этот батник автоматически обходит ограничение безопасным способом (`-ExecutionPolicy Bypass`), не меняя глобальные настройки системы.
