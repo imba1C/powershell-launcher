@@ -25,19 +25,19 @@ An all-in-one interactive CLI launcher designed to effortlessly run PowerShell s
 4. **Special Character Handling:** Correctly processes special characters (`&`, `|`, `<`, `>`, etc.) in filenames and fully supports UTF-8 encoding.
 
 ### 📁 Directory Structure
-For the launcher to work, simply place the `launcher.bat` file into the folder where your `.ps1` scripts are stored:
+For the launcher to work, simply place the `run.bat` file into the folder where your `.ps1` scripts are stored:
 
 ```text
 My-Scripts/
-├── launcher.bat       <- This launcher
+├── run.bat       <- This launcher
 ├── backup-db.ps1      <- Your useful scripts
 ├── clear-cache.ps1
 └── ...
 ```
 
 ### 🚀 How to Use
-1. Copy `launcher.bat` into your scripts folder.
-2. Double-click `launcher.bat` to run it.
+1. Copy `run.bat` into your scripts folder.
+2. Double-click `run.bat` to run it.
 3. Type the number of the desired script and press **Enter**.
 4. Once the script finishes, the console window will stay open so you can review the output or error logs.
 
@@ -71,19 +71,19 @@ This project is licensed under the MIT License. Feel free to use, modify, and di
 4. **Безопасность символов:** Корректно обрабатывает спецсимволы (`&`, `|`, `<`, `>`, etc.) в именах файлов и поддерживает кодировку UTF-8.
 
 ### 📁 Как настроить структуру папки
-Чтобы лаунчер работал, просто положите файл `launcher.bat` в папку, где хранятся ваши `.ps1` скрипты:
+Чтобы лаунчер работал, просто положите файл `run.bat` в папку, где хранятся ваши `.ps1` скрипты:
 
 ```text
 Мои-Скрипты/
-├── launcher.bat       <- Этот лаунчер
+├── run.bat       <- Этот лаунчер
 ├── backup-db.ps1      <- Ваши полезные скрипты
 ├── clear-cache.ps1
 └── ...
 ```
 
 ### 🚀 Инструкция по использованию
-1. Скопируйте `launcher.bat` в папку с вашими скриптами.
-2. Запустите `launcher.bat` двойным кликом.
+1. Скопируйте `run.bat` в папку с вашими скриптами.
+2. Запустите `run.bat` двойным кликом.
 3. Введите номер нужного скрипта из списка и нажмите **Enter**.
 4. После завершения работы скрипта консоль не закроется сама — вы сможете увидеть результат выполнения или логи ошибок.
 
