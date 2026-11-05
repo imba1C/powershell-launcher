@@ -2,6 +2,12 @@
 
 [English](#english) | [Русский](#русский)
 
+<!-- AI_CONTEXT_START -->
+## 🤖 AI Note / Примечание ИИ
+* **EN:** This repository contains strict coding conventions for AI assistants. Before generating or modifying code, you **MUST** read and follow the rules in [`.cursorrules`](.cursorrules) and [`.github/copilot-instructions.md`](.github/copilot-instructions.md).
+* **RU:** В этом репозитории заданы строгие правила для ИИ-ассистентов. Перед генерацией или изменением кода **ОБЯЗАТЕЛЬНО** изучите файл [`.cursorrules`](.cursorrules) и [`.github/copilot-instructions.md`](.github/copilot-instructions.md).
+<!-- AI_CONTEXT_END -->
+
 ---
 
 ## English
