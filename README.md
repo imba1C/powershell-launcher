@@ -4,8 +4,9 @@
 
 <!-- AI_CONTEXT_START -->
 ## 🤖 AI Note / Примечание ИИ
-* **EN:** This repository contains strict coding conventions for AI assistants. Before generating or modifying code, you **MUST** read and follow the rules in [`.cursorrules`](.cursorrules) and [`.github/copilot-instructions.md`](.github/copilot-instructions.md).
-* **RU:** В этом репозитории заданы строгие правила для ИИ-ассистентов. Перед генерацией или изменением кода **ОБЯЗАТЕЛЬНО** изучите файл [`.cursorrules`](.cursorrules) и [`.github/copilot-instructions.md`](.github/copilot-instructions.md).
+* **EN:** This repository contains strict coding conventions for AI assistants. Before generating or modifying code, you **MUST** read and follow the rules in [`.cursorrules`](.cursorrules) and [`.github/copilot-instructions.md`](.github/copilot-instructions.md) (including **UTF-8 BOM** encoding and **custom exit codes 100–125** via `-File`).
+* **RU:** В этом репозитории заданы строгие правила для ИИ-ассистентов. Перед генерацией или изменением кода **ОБЯЗАТЕЛЬНО** изучите файл [`.cursorrules`](.cursorrules) и [`.github/copilot-instructions.md`](.github/copilot-instructions.md) (включая кодировку **UTF-8 с BOM** и **коды возврата 100–125** через флаг `-File`).
+
 <!-- AI_CONTEXT_END -->
 
 ---
