@@ -75,10 +75,39 @@ echo Запуск скрипта...
 call :SafeEcho "%script%"
 echo ========================================
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%script%"
+set "exit_code=%ERRORLEVEL%"
+if not defined exit_code set "exit_code=0"
 echo ========================================
-echo Скрипт завершил работу.
+
+if "%exit_code%"=="0"    goto run_ok
+if "%exit_code%"=="9009" goto run_nops
+if %exit_code% LSS 0     goto run_crash
+if %exit_code% GEQ 100 if %exit_code% LEQ 125 goto run_custom
+goto run_err
+
+:run_ok
+echo [OK] Скрипт завершил работу успешно ^(код: 0^).
+goto run_done
+
+:run_nops
+echo [ОШИБКА] powershell.exe не найден ^(код: 9009^).
+goto run_done
+
+:run_crash
+echo [ОШИБКА] PowerShell завершился аварийно ^(код: %exit_code%^).
+goto run_done
+
+:run_custom
+echo [ОШИБКА] Ошибка валидации или бизнес-логики скрипта ^(код: %exit_code%^).
+goto run_done
+
+:run_err
+echo [ОШИБКА] Скрипт завершился с кодом: %exit_code%
+
+:run_done
+echo.
 pause
-exit /b
+exit /b %exit_code%
 
 :SafeEcho
 set "text=%~1"
