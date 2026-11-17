@@ -31,6 +31,7 @@ An all-in-one interactive CLI launcher designed to effortlessly run PowerShell s
 3. **Instant Launch:** If there is only one script in the folder, it will run instantly after pressing Enter.
 4. **Special Character Handling:** Correctly processes special characters (`&`, `|`, `<`, `>`, etc.) in filenames and fully supports UTF-8 encoding.
 5. **Exit Code Tracking:** Captures and displays the script's exact exit code (`%ERRORLEVEL%`), making it easy to distinguish normal completion (`0`) from custom validation errors (`101–125`) or system failures.
+6. **Smart Engine Detection (PS 7+ / 5.1):** Automatically detects and prioritizes **PowerShell 7+ (`pwsh`)** via system `PATH` or Microsoft Store App Execution Aliases (ignoring the current directory to prevent binary planting), and seamlessly falls back to built-in **Windows PowerShell 5.1**.
 
 ### 📁 Directory Structure
 For the launcher to work, simply place the `run.bat` file into the folder where your `.ps1` scripts are stored:
@@ -78,6 +79,7 @@ This project is licensed under the MIT License. Feel free to use, modify, and di
 3. **Быстрый запуск:** Если скрипт всего один, он запустится сразу (после подтверждения по нажатию Enter).
 4. **Безопасность символов:** Корректно обрабатывает спецсимволы (`&`, `|`, `<`, `>`, etc.) в именах файлов и поддерживает кодировку UTF-8.
 5. **Контроль кодов возврата:** Лаунчер перехватывает и выводит точный код завершения скрипта (`%ERRORLEVEL%`), позволяя сразу отличить штатную работу (`0`) от пользовательских ошибок валидации (`101–125`) или системных сбоев.
+6. **Автовыбор движка (PS 7+ / 5.1):** Автоматически находит и запускает **PowerShell 7+ (`pwsh`)** из системного `PATH` или Microsoft Store (игнорируя текущую папку для защиты от подмены бинарника), а при его отсутствии безопасно переключается на встроенный **Windows PowerShell 5.1**.
 
 ### 📁 Как настроить структуру папки
 Чтобы лаунчер работал, просто положите файл `run.bat` в папку, где хранятся ваши `.ps1` скрипты:
