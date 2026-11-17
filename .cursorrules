@@ -7,9 +7,10 @@
 * **PowerShell (`.ps1`):** Must be saved in **UTF-8 with BOM**. Always include `[Console]::OutputEncoding = [System.Text.Encoding]::UTF8` at the very beginning of the script to prevent Cyrillic rendering issues.
 * **Batch (`.bat`):** Must be saved in **UTF-8 WITHOUT BOM** (or ANSI) to prevent `cmd.exe` from failing on the first line.
 
-### 2. Execution & Custom Exit Codes (Recommended Range: 100–125)
-* **Launcher Invocation (`-File`):** `run.bat` **MUST** invoke `.ps1` scripts using `powershell.exe -NoProfile -ExecutionPolicy Bypass -File "<script_path>"`. Never use `-Command`, as it coerces non-zero exit codes to `1` and masks custom codes.
-* **Custom Exit Codes (Recommended):** To avoid collisions with Windows Win32 System Errors (`1–99`) and POSIX/Git fatal exit codes (`126+`), it is **recommended** to use the isolated **100–125** range via `exit <code>` for custom validation and business logic errors:
+### 2. Engine Selection, Execution & Custom Exit Codes (Recommended Range: 100–125)
+
+* **Engine Priority & Syntax Compatibility:** `run.bat` prioritizes **PowerShell 7+ (`pwsh.exe`)** (resolved safely via system `PATH` or `WindowsApps`, ignoring the working directory) and falls back to built-in **Windows PowerShell 5.1** (`powershell.exe`). All `.ps1` scripts **MUST** remain syntax-compatible with **PowerShell 5.1** (avoid PS 7-only operators like `? :`, `??`, `&&`, or `-Parallel`).
+* **Launcher Invocation (`-File`):** `run.bat` **MUST** invoke `.ps1` scripts using `"!PS_BIN!" -NoProfile -ExecutionPolicy Bypass -File "<script_path>"`. Never use `-Command`, as it coerces non-zero exit codes to `1` and masks custom codes.
   * `exit 0` — Success.
   * `exit 101` — Input/Source validation failed (e.g., missing file or directory).
   * `exit 102` — Environment/Dependency validation failed (e.g., missing required tool or module).
