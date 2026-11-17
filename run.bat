@@ -3,12 +3,34 @@ setlocal EnableDelayedExpansion
 chcp 65001 >nul
 cd /d "%~dp0"
 
+:: ==============================================================================
+:: БЕЗОПАСНОЕ ОПРЕДЕЛЕНИЕ ДВИЖКА POWERSHELL (0 мс задержки, без уязвимостей)
+:: ==============================================================================
+set "PS_BIN=%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe"
+set "PS_LABEL=Windows PowerShell 5.1 (встроенный)"
+
+:: 1. Проверяем системный PATH (игнорирует текущую папку — защита от подмены)
+for %%p in (pwsh.exe) do if not "%%~$PATH:p"=="" (
+    set "PS_BIN=%%~$PATH:p"
+    set "PS_LABEL=PowerShell 7+ (pwsh)"
+)
+
+:: 2. Проверяем системный ярлык Microsoft Store (если pwsh не найден в PATH)
+if /i "!PS_BIN!"=="%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" (
+    if exist "%LocalAppData%\Microsoft\WindowsApps\pwsh.exe" (
+        set "PS_BIN=%LocalAppData%\Microsoft\WindowsApps\pwsh.exe"
+        set "PS_LABEL=PowerShell 7+ (Microsoft Store)"
+    )
+)
+:: ==============================================================================
+
 :scan
 set count=0
 for %%f in (*.ps1) do set /a count+=1
 
 if %count%==0 (
     echo.
+    echo Движок: !PS_LABEL!
     echo В папке не найдено .ps1 скриптов:
     echo %cd%
     pause
@@ -21,6 +43,7 @@ goto menu
 :single
 for %%f in (*.ps1) do set "script=%%~nxf"
 echo.
+echo Движок: !PS_LABEL!
 echo Найден единственный скрипт:
 call :SafeEcho "%script%"
 echo.
@@ -34,7 +57,8 @@ goto single
 
 :menu
 cls
-echo Папка: %cd%
+echo Папка:  %cd%
+echo Движок: !PS_LABEL!
 echo.
 set idx=0
 for %%f in (*.ps1) do (
@@ -52,7 +76,7 @@ for %%f in (*.ps1) do (
 echo   0. Выход
 echo.
 set "choice="
-set /p choice="Номер скрипта (1-%idx%), [0] - выход, [Enter] - повторить список: "
+set /p choice="Номер скрипта (1-%idx%), [0] - выход, [Enter] - обновить список: "
 if "%choice%"=="0" exit /b
 if "%choice%"=="" goto menu
 
@@ -71,18 +95,19 @@ if "%script%"=="" (
 
 :run
 echo.
-echo Запуск скрипта...
+echo Запуск скрипта:
 call :SafeEcho "%script%"
+echo Движок: !PS_LABEL!
 echo ========================================
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%script%"
-set "exit_code=%ERRORLEVEL%"
+"!PS_BIN!" -NoProfile -ExecutionPolicy Bypass -File "%script%"
+set "exit_code=!ERRORLEVEL!"
 if not defined exit_code set "exit_code=0"
 echo ========================================
 
-if "%exit_code%"=="0"    goto run_ok
-if "%exit_code%"=="9009" goto run_nops
-if %exit_code% LSS 0     goto run_crash
-if %exit_code% GEQ 100 if %exit_code% LEQ 125 goto run_custom
+if "!exit_code!"=="0"    goto run_ok
+if "!exit_code!"=="9009" goto run_nops
+if !exit_code! LSS 0     goto run_crash
+if !exit_code! GEQ 100 if !exit_code! LEQ 125 goto run_custom
 goto run_err
 
 :run_ok
@@ -90,19 +115,19 @@ echo [OK] Скрипт завершил работу успешно ^(код: 0^
 goto run_done
 
 :run_nops
-echo [ОШИБКА] powershell.exe не найден ^(код: 9009^).
+echo [ОШИБКА] Выбранный движок PowerShell не найден: !PS_BIN! ^(код: 9009^).
 goto run_done
 
 :run_crash
-echo [ОШИБКА] PowerShell завершился аварийно ^(код: %exit_code%^).
+echo [ОШИБКА] PowerShell завершился аварийно ^(код: !exit_code!^).
 goto run_done
 
 :run_custom
-echo [ОШИБКА] Ошибка валидации или бизнес-логики скрипта ^(код: %exit_code%^).
+echo [ОШИБКА] Ошибка валидации или бизнес-логики скрипта ^(код: !exit_code!^).
 goto run_done
 
 :run_err
-echo [ОШИБКА] Скрипт завершился с кодом: %exit_code%
+echo [ОШИБКА] Скрипт завершился с кодом: !exit_code!
 
 :run_done
 echo.
